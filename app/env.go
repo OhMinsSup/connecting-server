@@ -13,10 +13,6 @@ func loadEnv(filename string) {
 	}
 }
 
-func GetEnvWithKey(key string) string {
-	return os.Getenv(key)
-}
-
 func NewEnv() {
 	env := os.Getenv("APP_ENV")
 	//allowOrigins := []string{""}

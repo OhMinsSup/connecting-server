@@ -4,7 +4,7 @@ services:
   database:
     image: postgres:12.3-alpine
     restart: always
-    container_name: story-db
+    container_name: conectiong-db
     hostname: database
     networks:
       - internal_network
@@ -30,7 +30,7 @@ services:
       - database
     environment:
       - DB_HOST=host.docker.internal
-    volumes:
+#    volumes:
 #      - .env:/app/.env.dev
 
 networks:

@@ -3,6 +3,7 @@ package main
 import (
 	"connecting-server/api"
 	"connecting-server/app"
+	"connecting-server/lib"
 )
 
 func init() {
@@ -10,7 +11,7 @@ func init() {
 }
 
 func main() {
-	port := app.GetEnvWithKey("PORT")
+	port := lib.GetEnvWithKey("PORT")
 	server := app.New()
 
 	api.ApplyRoutes(server)

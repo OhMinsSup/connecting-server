@@ -1,7 +1,7 @@
 package database
 
 import (
-	"connecting-server/app"
+	"connecting-server/lib"
 	"connecting-server/model"
 	"fmt"
 	"github.com/jinzhu/gorm"
@@ -15,11 +15,11 @@ import (
 
 func Initialize() (*gorm.DB, error) {
 	// viper package read .env
-	dbUser := app.GetEnvWithKey("POSTGRES_USER")
-	dbPassword := app.GetEnvWithKey("POSTGRES_PASSWORD")
-	dbName := app.GetEnvWithKey("POSTGRES_DB")
-	dbHost := app.GetEnvWithKey("POSTGRES_HOST")
-	dbPort := app.GetEnvWithKey("POSTGRES_PORT")
+	dbUser := lib.GetEnvWithKey("POSTGRES_USER")
+	dbPassword := lib.GetEnvWithKey("POSTGRES_PASSWORD")
+	dbName := lib.GetEnvWithKey("POSTGRES_DB")
+	dbHost := lib.GetEnvWithKey("POSTGRES_HOST")
+	dbPort := lib.GetEnvWithKey("POSTGRES_PORT")
 	// https://gobyexample.com/string-formatting
 	dbConfig := fmt.Sprintf("host=%v port=%v user=%v dbname=%v password=%v sslmode=disable", dbHost, dbPort, dbUser, dbName, dbPassword)
 

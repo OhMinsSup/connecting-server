@@ -26,4 +26,4 @@ WORKDIR /app
 COPY --from=build /app/.env.dev .
 COPY --from=build /app/connecting-server .
 
-CMD ["./story-server"]
+CMD ["./connecting-server"]
