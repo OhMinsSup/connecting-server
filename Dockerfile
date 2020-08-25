@@ -6,11 +6,12 @@ FROM golang:1.14.4-alpine3.12 as build
 # Install git & Git is required for fetching the dependencies.
 RUN apk update && apk add --no-cache git
 
-# Clone this repo
-RUN git clone https://github.com/OhMinsSup/connecting-server.git /app
-
 # Change workdir
 WORKDIR /app
+
+# Clone this repo
+#RUN git clone https://github.com/OhMinsSup/connecting-server.git /app
+COPY . .
 
 # Download all dependencies. Dependencies will be cached if the go.mod and the go.sum files are not changed 의존성 mod / sum을 변경하지 않으면 캐시됩니다.
 RUN go mod download
