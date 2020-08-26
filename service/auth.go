@@ -33,3 +33,18 @@ func (auth *AuthService) LocalRegisterService(body dto.LocalRegisterBody) (*mode
 
 	return user, nil
 }
+
+func (auth *AuthService) SignInService(body dto.SignInBody) (*model.User, *app.ErrorException) {
+	userRepository := repository.NewUserRepository(auth.db)
+
+	user := userRepository.FindUser(body.UserId)
+	if user == nil {
+		return nil, app.NotExistsErrorResponse(errors.New("존재하지 않는 유저입니다"))
+	}
+
+	if !user.CheckPassword(body.Password) {
+		return nil, app.ForbiddenErrorResponse(errors.New("패스워드가 일치하지 않습니다."))
+	}
+	
+	return user, nil
+}

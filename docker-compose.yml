@@ -31,7 +31,7 @@ services:
     environment:
       - DB_HOST=host.docker.internal
     volumes:
-      - ./ ./
+      - /app ./
 
 networks:
   internal_network:

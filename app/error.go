@@ -12,19 +12,30 @@ type ErrorException struct {
 }
 
 const (
-	ALREADY_EXIST = ErrorStatus("ALREADY_EXIST")
+	AlreadyExist  = ErrorStatus("ALREADY_EXIST")
 	BadRequest    = ErrorStatus("BAD_REQUEST")
 	NotFound      = ErrorStatus("NOT_FOUND")
 	Forbidden     = ErrorStatus("FORBIDDEN")
 	InteralServer = ErrorStatus("INTERNAL_SERVER_ERROR")
 	UnAuthorized  = ErrorStatus("UNAUTHORIZED")
+	NotExist      = ErrorStatus("NOT_EXIST")
 )
 
 func AlreadyExistsErrorResponse(msg error) *ErrorException {
 	exception := ErrorException{
 		Code:          http.StatusOK,
-		Message:       ALREADY_EXIST,
+		Message:       AlreadyExist,
 		ResultCode:    2003,
+		ResultMessage: msg,
+	}
+	return &exception
+}
+
+func NotExistsErrorResponse(msg error) *ErrorException {
+	exception := ErrorException{
+		Code:          http.StatusOK,
+		Message:       NotExist,
+		ResultCode:    2002,
 		ResultMessage: msg,
 	}
 	return &exception

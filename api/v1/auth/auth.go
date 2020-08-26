@@ -9,4 +9,5 @@ func ApplyRoutes(e *echo.Group) {
 	auth := e.Group("/auth")
 
 	auth.POST("/register/local", controller.LocalRegister)
+	auth.POST("/signIn", controller.SignIn)
 }

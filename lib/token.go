@@ -24,12 +24,12 @@ func generateCookie(name, token, domain string, maxAge int, httpOnly, secure boo
 func SetCookie(env string, tokens JSON, ctx echo.Context) {
 	switch env {
 	case "production":
-		ctx.SetCookie(generateCookie("access_token", "/", tokens["accessToken"].(string), 60*60*24, true, true))
-		ctx.SetCookie(generateCookie("refresh_token", "/", tokens["refreshToken"].(string), 60*60*24*30, true, true))
+		ctx.SetCookie(generateCookie("access_token", tokens["accessToken"].(string), "/", 60*60*24, true, true))
+		ctx.SetCookie(generateCookie("refresh_token", tokens["refreshToken"].(string), "/", 60*60*24*30, true, true))
 		break
 	case "development":
-		ctx.SetCookie(generateCookie("access_token", "localhost", tokens["accessToken"].(string), 60*60*24, false, true))
-		ctx.SetCookie(generateCookie("refresh_token", "localhost", tokens["refreshToken"].(string), 60*60*24*30, false, true))
+		ctx.SetCookie(generateCookie("access_token", tokens["accessToken"].(string), "", 60*60*24, true, false))
+		ctx.SetCookie(generateCookie("refresh_token", tokens["refreshToken"].(string), "", 60*60*24*30, true, false))
 		break
 	default:
 		break

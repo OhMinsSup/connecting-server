@@ -27,7 +27,29 @@ func LocalRegister(ctx echo.Context) error {
 	tokens := result.GenerateUserToken(db)
 	lib.SetCookie(lib.GetEnvWithKey("APP_ENV"), tokens, ctx)
 	return ctx.JSON(http.StatusOK, lib.JSON{
-		"user":   result,
+		"id":   result.ID,
+		"tokens": tokens,
+	})
+}
+
+func SignIn(ctx echo.Context) error {
+	body := new(dto.SignInBody)
+	if err := ctx.Bind(body); err != nil {
+		return ctx.JSON(http.StatusBadRequest, app.BadRequestErrorResponse(err))
+	}
+
+	db := ctx.Get("db").(*gorm.DB)
+	authService := service.NewAuthService(db)
+
+	result, err := authService.SignInService(*body)
+	if err != nil {
+		return ctx.JSON(err.Code, err)
+	}
+
+	tokens := result.GenerateUserToken(db)
+	lib.SetCookie(lib.GetEnvWithKey("APP_ENV"), tokens, ctx)
+	return ctx.JSON(http.StatusOK, lib.JSON{
+		"id":   result.ID,
 		"tokens": tokens,
 	})
 }

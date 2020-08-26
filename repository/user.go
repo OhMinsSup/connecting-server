@@ -25,6 +25,14 @@ func (user *UserRepository) FindExists(userId string) bool {
 	return false
 }
 
+func (user *UserRepository) FindUser(userId string) *model.User {
+	var userModel model.User
+	if err := user.db.Where("user_id = ?", userId).First(&userModel).Error; err != nil {
+		return nil
+	}
+	return &userModel
+}
+
 func (user *UserRepository) CreateUser(body dto.LocalRegisterBody) (*model.User, *app.ErrorException) {
 	tx := user.db.Begin()
 
@@ -71,6 +79,6 @@ func (user *UserRepository) CreateUser(body dto.LocalRegisterBody) (*model.User,
 		tx.Rollback()
 		return nil, app.InteralServerErrorResponse(err)
 	}
-	
+
 	return &userModel, nil
 }

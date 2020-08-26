@@ -10,3 +10,8 @@ type LocalRegisterBody struct {
 	ThumbnailUrl string `json:"thumbnail_url" binding:"omitempty,url"`
 	SttsMsg      string `json:"stts_msg" binding:"max=1024"`
 }
+
+type SignInBody struct {
+	UserId   string `json:"user_id" binding:"exists,alphanum,min=4,max=255"`
+	Password string `json:"password" binding:"exists,min=8,max=255"`
+}
