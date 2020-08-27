@@ -19,6 +19,7 @@ func main() {
 	server := app.New()
 
 	api.ApplyRoutes(server)
+	server.GET("/ws", app.ConnectWebSocket)
 
 	// Start server
 	go func() {

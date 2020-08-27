@@ -101,7 +101,7 @@ func (user *User) RefreshUserToken(tokenId string, refreshTokenExp int64, origin
 }
 
 type UserProfile struct {
-	ID            string     `gorm:"primary_key;uuid" json:"id"`
+	ID            string     `gorm:"primary_key;uuid;" json:"id"`
 	Username      string     `sql:"index" json:"username"`
 	CountryCode   string     `json:"country_code"`
 	Phone         string     `sql:"index" json:"phone"`

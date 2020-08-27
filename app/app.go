@@ -13,13 +13,16 @@ func New() *echo.Echo {
 
 	e := echo.New()
 
+	e.Validator = NewValidator()
 	e.Logger.SetLevel(log.INFO)
+
 	e.Use(database.Inject(db))
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
 		Level: 5,
 	}))
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins:     []string{"*"},
 		AllowCredentials: true,
@@ -27,7 +30,5 @@ func New() *echo.Echo {
 		AllowMethods:     []string{echo.GET, echo.HEAD, echo.PUT, echo.PATCH, echo.POST, echo.DELETE},
 	}))
 	e.Use(middlewares.ConsumeUser)
-
-	e.Validator = NewValidator()
 	return e
 }

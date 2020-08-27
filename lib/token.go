@@ -17,6 +17,7 @@ func generateCookie(name, token, domain string, maxAge int, httpOnly, secure boo
 	cookie.Domain = domain
 	cookie.MaxAge = maxAge
 	cookie.HttpOnly = httpOnly
+	cookie.Path = "/"
 	cookie.Secure = secure
 	return cookie
 }

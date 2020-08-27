@@ -1,12 +1,19 @@
 package controller
 
 import (
-	"connecting-server/lib"
+	"connecting-server/service"
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 )
 
 func UserProfileInfo(ctx echo.Context) error {
-	return ctx.JSON(200, lib.JSON{
-		"id": ctx.Get("id"),
-	})
+	db := ctx.Get("db").(*gorm.DB)
+	id := ctx.Get("id").(string)
+	userService := service.NewUserService(db, id)
+
+	result, err := userService.Profile()
+	if err != nil {
+		return ctx.JSON(err.Code, err)
+	}
+	return ctx.JSON(200, result)
 }

@@ -92,7 +92,6 @@ func ConsumeUser(next echo.HandlerFunc) echo.HandlerFunc {
 			return next(ctx)
 		}
 
-		log.Println("payload", payload["user_id"])
 		ctx.Set("id", payload["user_id"])
 		return next(ctx)
 	}
