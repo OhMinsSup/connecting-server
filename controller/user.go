@@ -7,8 +7,8 @@ import (
 )
 
 func UserProfileInfo(ctx echo.Context) error {
-	db := ctx.Get("db").(*gorm.DB)
 	id := ctx.Get("id").(string)
+	db := ctx.Get("db").(*gorm.DB)
 	userService := service.NewUserService(db, id)
 
 	result, err := userService.Profile()

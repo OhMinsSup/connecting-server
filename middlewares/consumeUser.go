@@ -27,10 +27,10 @@ func refresh(ctx echo.Context, refreshToken string) (string, error) {
 
 	tokenId := payload["token_id"].(string)
 	exp := int64(decodeTokenData["exp"].(float64))
-
 	tokens := userModel.RefreshUserToken(tokenId, exp, refreshToken)
+
 	lib.SetCookie(lib.GetEnvWithKey("APP_ENV"), tokens, ctx)
-	return payload["token_id"].(string), nil
+	return tokenId, nil
 }
 
 func ConsumeUser(next echo.HandlerFunc) echo.HandlerFunc {

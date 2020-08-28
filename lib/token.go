@@ -23,6 +23,10 @@ func generateCookie(name, token, domain string, maxAge int, httpOnly, secure boo
 }
 
 func SetCookie(env string, tokens JSON, ctx echo.Context) {
+	if tokens == nil {
+		return
+	}
+
 	switch env {
 	case "production":
 		ctx.SetCookie(generateCookie("access_token", tokens["accessToken"].(string), "/", 60*60*24, true, true))

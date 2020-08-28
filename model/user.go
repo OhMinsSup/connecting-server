@@ -83,14 +83,14 @@ func (user *User) RefreshUserToken(tokenId string, refreshTokenExp int64, origin
 			"user_id": user.ID,
 		}
 		accessToken, _ := lib.GenerateAccessToken(accessPayload, accessSubject)
-
+		log.Println("accessToken", accessToken)
 		refreshSubject := "refresh_token"
 		refreshPayload := lib.JSON{
 			"user_id":  user.ID,
 			"token_id": tokenId,
 		}
 		refreshToken, _ = lib.GenerateRefreshToken(refreshPayload, refreshSubject)
-
+		log.Println("refreshToken", refreshToken)
 		return lib.JSON{
 			"accessToken":  accessToken,
 			"refreshToken": refreshToken,

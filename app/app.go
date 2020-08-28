@@ -14,7 +14,7 @@ func New() *echo.Echo {
 	e := echo.New()
 
 	e.Validator = NewValidator()
-	e.Logger.SetLevel(log.INFO)
+	e.Logger.SetLevel(log.DEBUG)
 
 	e.Use(database.Inject(db))
 	e.Use(middleware.GzipWithConfig(middleware.GzipConfig{
