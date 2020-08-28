@@ -4,6 +4,7 @@ import (
 	"connecting-server/api"
 	"connecting-server/app"
 	"connecting-server/lib"
+	"connecting-server/socket"
 	"context"
 	"os"
 	"os/signal"
@@ -18,8 +19,10 @@ func main() {
 	port := lib.GetEnvWithKey("PORT")
 	server := app.New()
 
+	// api server
 	api.ApplyRoutes(server)
-	server.GET("/ws", app.ConnectWebSocket)
+	// connecting WebSocket
+	server.GET("/ws", socket.ConnectWebSocket)
 
 	// Start server
 	go func() {

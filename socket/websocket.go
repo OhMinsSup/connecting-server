@@ -1,7 +1,7 @@
-package app
+package socket
 
 import (
-	"fmt"
+	"connecting-server/lib"
 	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 	"net/http"
@@ -45,22 +45,28 @@ func ConnectWebSocket(ctx echo.Context) error {
 
 	ws, err := upgrader.Upgrade(ctx.Response(), ctx.Request(), nil)
 	if err != nil {
-		panic(err)
+		lib.DefaultErrorLog("webSocket connecting err.", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, err)
 	}
+
 	defer ws.Close()
 
-	for {
-		// Write
-		err := ws.WriteMessage(websocket.TextMessage, []byte("Hello, Client!"))
-		if err != nil {
-			panic(err)
-		}
+	//wc := NewWebConn(ws, ctx)
 
-		// Read
-		_, msg, err := ws.ReadMessage()
-		if err != nil {
-			panic(err)
-		}
-		fmt.Printf("%s\n", msg)
-	}
+	return nil
+	//for {
+	//	// Write
+	//	err := ws.WriteMessage(websocket.TextMessage, []byte("Hello, Client!"))
+	//	if err != nil {
+	//		lib.DefaultErrorLog("webSocket connecting err.", err)
+	//		return echo.NewHTTPError(http.StatusInternalServerError, "connect web_socket.connect.upgrade.app_error")
+	//	}
+	//
+	//	// Read
+	//	_, msg, err := ws.ReadMessage()
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//	fmt.Printf("%s\n", msg)
+	//}
 }
