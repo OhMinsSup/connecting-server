@@ -47,11 +47,16 @@ func Migrate(db *gorm.DB) {
 		&model.User{},
 		&model.UserProfile{},
 		&model.UserMeta{},
-		&model.AuthToken{})
+		&model.AuthToken{},
+		&model.Room{},
+		&model.Message{},
+	)
 
 	db.Model(&model.UserProfile{}).AddForeignKey("user_ref", "users(id)", "CASCADE", "CASCADE")
 	db.Model(&model.UserMeta{}).AddForeignKey("user_ref", "users(id)", "CASCADE", "CASCADE")
 	db.Model(&model.AuthToken{}).AddForeignKey("user_ref", "users(id)", "CASCADE", "CASCADE")
+	db.Model(&model.Message{}).AddForeignKey("user_ref", "users(id)", "CASCADE", "CASCADE")
+	db.Model(&model.Message{}).AddForeignKey("room_ref", "rooms(id)", "CASCADE", "CASCADE")
 
 	log.Println("Auto Migration has beed processed")
 }

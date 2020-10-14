@@ -4,7 +4,6 @@ import (
 	"connecting-server/api"
 	"connecting-server/app"
 	"connecting-server/lib"
-	"connecting-server/socket"
 	"context"
 	"os"
 	"os/signal"
@@ -21,8 +20,9 @@ func main() {
 
 	// api server
 	api.ApplyRoutes(server)
+
 	// connecting WebSocket
-	server.GET("/ws", socket.ConnectWebSocket)
+	//server.GET("/ws", socket.ConnectWebSocket)
 
 	// Start server
 	go func() {

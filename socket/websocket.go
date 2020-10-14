@@ -3,13 +3,14 @@ package socket
 import (
 	"connecting-server/lib"
 	"github.com/gorilla/websocket"
+	"github.com/jinzhu/gorm"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strings"
 )
 
 const (
-	SOCKET_MAX_MESSAGE_SIZE_KB  = 8 * 1024 // 8KB
+	SOCKET_MAX_MESSAGE_SIZE_KB = 8 * 1024 // 8KB
 )
 
 func CheckOrigin(r *http.Request, allowedOrigins string) bool {
@@ -36,7 +37,7 @@ func OriginChecker(allowedOrigins string) func(*http.Request) bool {
 	}
 }
 
-func ConnectWebSocket(ctx echo.Context) error {
+func ConnectWebSocket(ctx echo.Context) {
 	upgrader := websocket.Upgrader{
 		ReadBufferSize:  SOCKET_MAX_MESSAGE_SIZE_KB,
 		WriteBufferSize: SOCKET_MAX_MESSAGE_SIZE_KB,
@@ -45,28 +46,12 @@ func ConnectWebSocket(ctx echo.Context) error {
 
 	ws, err := upgrader.Upgrade(ctx.Response(), ctx.Request(), nil)
 	if err != nil {
-		lib.DefaultErrorLog("webSocket connecting err.", err)
-		return echo.NewHTTPError(http.StatusInternalServerError, err)
+		lib.DefaultErrorLog("webSocket connecting err:", err)
+		panic(err)
 	}
 
-	defer ws.Close()
+	db := ctx.Get("db").(*gorm.DB)
+	userId := ctx.Get("id").(string)
 
-	//wc := NewWebConn(ws, ctx)
-
-	return nil
-	//for {
-	//	// Write
-	//	err := ws.WriteMessage(websocket.TextMessage, []byte("Hello, Client!"))
-	//	if err != nil {
-	//		lib.DefaultErrorLog("webSocket connecting err.", err)
-	//		return echo.NewHTTPError(http.StatusInternalServerError, "connect web_socket.connect.upgrade.app_error")
-	//	}
-	//
-	//	// Read
-	//	_, msg, err := ws.ReadMessage()
-	//	if err != nil {
-	//		panic(err)
-	//	}
-	//	fmt.Printf("%s\n", msg)
-	//}
+	NewWebConn(ws, db, ctx, "", userId)
 }
